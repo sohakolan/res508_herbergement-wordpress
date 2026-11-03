@@ -1,7 +1,7 @@
 /*
-Theme Name: Minimal
-Description: Un thème WordPress simple et minimaliste.
-Version: 1.0
+Theme Name: Velours
+Description: Un thème WordPress sombre et sensuel : grands titres italiques, velours lie-de-vin et images en arche.
+Version: 2.0
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GPL-2.0-or-later
@@ -9,59 +9,189 @@ Text Domain: minimal
 */
 
 :root {
-	color-scheme: light dark;
-	--text: light-dark(#1a1a1a, #e8e8e8);
-	--muted: light-dark(#6b6b6b, #9a9a9a);
-	--bg: light-dark(#fff, #161616);
-	--border: light-dark(#e5e5e5, #2e2e2e);
+	color-scheme: dark light;
+	--text: light-dark(#3a0a26, #f9e1e7);
+	--muted: light-dark(#7c3f5c, #cfa3b5);
+	--bg: light-dark(#fbe6ea, #2b0a1e);
+	--field: light-dark(#fff5f7, #3a1029);
+	--border: light-dark(#e6b4c4, #5f2745);
+	--accent: light-dark(#b80d4a, #ff5c87);
+	--on-accent: light-dark(#fff5f7, #2b0a1e);
+	--glow: light-dark(#ffc2d4, #6d0f3f);
+	--gutter: clamp(1rem, 4vw, 3.5rem);
+	--display: "Bodoni Moda", "Didot", "Bodoni 72", serif;
 }
 
 * { box-sizing: border-box; }
+::selection { background: var(--accent); color: var(--on-accent); }
 
 body {
-	max-width: 42rem;
-	margin: 0 auto;
-	padding: 2rem 1rem;
+	margin: 0;
+	padding: 1.5rem var(--gutter);
+	overflow-x: clip;
 	background: var(--bg);
 	color: var(--text);
-	font: 1.0625rem/1.7 system-ui, sans-serif;
+	font: 1.0625rem/1.65 "Hanken Grotesk", system-ui, sans-serif;
 }
 
 a { color: inherit; text-underline-offset: 0.2em; }
+a:hover { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 img, video, iframe { max-width: 100%; height: auto; }
-h1, h2, h3 { line-height: 1.25; }
-pre { overflow-x: auto; }
+pre { overflow-x: auto; padding: 1rem; background: var(--field); }
+h1, h2, h3 { font-family: var(--display); font-style: italic; font-weight: 500; line-height: 1.05; text-wrap: balance; }
 
+/* En-tête */
 .site-header {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
-	gap: 1rem;
-	margin-bottom: 4rem;
+	align-items: baseline;
+	gap: 1rem 2rem;
+	min-height: 2rem;
 }
-.site-title { font-weight: 600; text-decoration: none; }
-.site-header ul { display: flex; flex-wrap: wrap; gap: 1rem; margin: 0; padding: 0; list-style: none; }
+.site-header nav { margin-left: auto; }
+.site-title { font: italic 500 1.5rem var(--display); text-decoration: none; }
+.site-header ul { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; margin: 0; padding: 0; list-style: none; }
+.site-header li a { text-decoration: none; }
+.site-header li a:hover { text-decoration: underline; }
 
-article { margin-bottom: 3rem; }
-.entry-title { margin: 0 0 0.25rem; }
-.entry-title a { text-decoration: none; }
-.entry-date, .site-footer { color: var(--muted); font-size: 0.875rem; }
-.nav-links { display: flex; justify-content: space-between; gap: 1rem; }
+/* Le grand nom du site : l'unique geste spectaculaire du thème */
+.hero {
+	margin: clamp(2rem, 7vw, 6rem) calc(var(--gutter) * -1) clamp(2rem, 6vw, 5rem);
+	padding: 0 var(--gutter);
+	background: radial-gradient(closest-side at 40% 50%, var(--glow), transparent);
+}
+.hero h1 {
+	margin: 0;
+	font-size: clamp(3.5rem, 17vw, 16rem);
+	font-weight: 400;
+	line-height: 0.92;
+	letter-spacing: -0.03em;
+	overflow-wrap: break-word;
+	animation: mise-au-point 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.hero p { max-width: 34rem; margin: 1.5rem 0 0; font-size: 1.25rem; color: var(--muted); }
+@keyframes mise-au-point {
+	from { opacity: 0; filter: blur(18px); letter-spacing: 0.04em; }
+}
 
+/* Liste d'articles */
+main > h1 { margin: clamp(2rem, 6vw, 5rem) 0; font-size: clamp(2.75rem, 8vw, 6.5rem); }
+.row {
+	display: grid;
+	grid-template-columns: 9rem minmax(0, 1fr) auto;
+	grid-template-areas: "date title thumb" "date excerpt thumb";
+	grid-template-rows: auto 1fr;
+	column-gap: clamp(1rem, 3vw, 3rem);
+	padding: 2rem 0 2.5rem;
+	border-top: 1px solid var(--border);
+}
+.row .entry-date { grid-area: date; padding-top: 0.6em; }
+.row .entry-title {
+	grid-area: title;
+	margin: 0 0 0.75rem;
+	font-size: clamp(2.25rem, 6vw, 5rem);
+}
+.row .entry-title a { display: inline-block; text-decoration: none; transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s; }
+.row .entry-title a:hover { color: var(--accent); transform: translateX(0.25em); }
+.row > p { grid-area: excerpt; max-width: 38rem; margin: 0; color: var(--muted); }
+.row > img {
+	grid-area: thumb;
+	width: clamp(7rem, 16vw, 13rem);
+	aspect-ratio: 3 / 4;
+	object-fit: cover;
+	border-radius: 50% 50% 0 0 / 38% 38% 0 0;
+}
+.entry-date, .site-footer, .wp-caption-text, figcaption { color: var(--muted); font-size: 0.9375rem; }
+
+/* Article seul */
+.entry { max-width: 42rem; margin: clamp(2.5rem, 7vw, 6rem) auto 4rem; }
+.entry .entry-title { margin: 0 0 1rem; font-size: clamp(2.75rem, 9vw, 6.5rem); }
+.entry .wp-post-image {
+	display: block;
+	width: min(100%, 30rem);
+	margin: 2.5rem auto;
+	aspect-ratio: 4 / 5;
+	object-fit: cover;
+	border-radius: 50% 50% 0 0 / 38% 38% 0 0;
+}
+.entry h2 { margin: 2.5em 0 0.5em; font-size: 2.25rem; }
+.entry h3 { margin: 2em 0 0.5em; font-size: 1.625rem; }
+.entry a { color: var(--accent); }
+blockquote {
+	margin: 2.5rem 0;
+	font: italic 400 1.75rem/1.3 var(--display);
+}
+blockquote p { margin: 0; }
+
+/* Pagination */
+.pagination { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+.nav-links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+.page-numbers { text-decoration: none; }
+.page-numbers.current { color: var(--accent); font-weight: 600; }
+
+/* Commentaires et formulaires */
+#comments { max-width: 42rem; margin: 0 auto 4rem; }
+#comments h2, #comments h3 { font-size: 2.25rem; }
+#comments ol { padding: 0; list-style: none; }
+#comments li { margin-bottom: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.comment-author img { border-radius: 50%; vertical-align: middle; margin-right: 0.5rem; }
+.comment-form label { display: block; margin-bottom: 0.25rem; }
+.comment-form-cookies-consent label { display: inline; margin-left: 0.5rem; }
+input:not([type="checkbox"], [type="radio"], [type="submit"]), textarea {
+	width: 100%;
+	padding: 0.7rem 0.85rem;
+	border: 1px solid var(--border);
+	border-radius: 0.25rem;
+	background: var(--field);
+	color: inherit;
+	font: inherit;
+}
+input[type="submit"], button {
+	padding: 0.75rem 1.5rem;
+	border: 0;
+	border-radius: 2rem;
+	background: var(--accent);
+	color: var(--on-accent);
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+input[type="submit"]:hover, button:hover { filter: brightness(1.12); }
+.search-form { display: flex; gap: 0.5rem; max-width: 30rem; }
+.search-form label { flex: 1; }
+
+/* Pied de page */
 .site-footer {
 	margin-top: 4rem;
 	padding-top: 1rem;
 	border-top: 1px solid var(--border);
 }
 
+/* Classes WordPress */
 .alignleft { float: left; margin-right: 1rem; }
 .alignright { float: right; margin-left: 1rem; }
 .aligncenter { display: block; margin-inline: auto; }
-.wp-caption-text, figcaption { color: var(--muted); font-size: 0.875rem; }
 .screen-reader-text {
 	position: absolute;
 	width: 1px;
 	height: 1px;
 	overflow: hidden;
 	clip-path: inset(50%);
+}
+
+@media (max-width: 40rem) {
+	.row {
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-areas: "date thumb" "title thumb" "excerpt excerpt";
+		grid-template-rows: auto auto auto;
+	}
+	.row .entry-date { padding: 0 0 0.5rem; }
+	.row > img { width: 5.5rem; margin-bottom: 0.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero h1 { animation: none; }
+	.row .entry-title a { transition: none; }
+	.row .entry-title a:hover { transform: none; }
 }

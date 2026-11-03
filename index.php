@@ -9,7 +9,9 @@
 <?php wp_body_open(); ?>
 
 <header class="site-header">
-	<a class="site-title" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a>
+	<?php if ( ! is_home() ) : ?>
+		<a class="site-title" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a>
+	<?php endif; ?>
 	<?php
 	wp_nav_menu( array(
 		'theme_location' => 'primary',
@@ -21,15 +23,24 @@
 </header>
 
 <main>
-	<?php if ( is_archive() || is_search() ) : ?>
+	<?php if ( is_home() ) : ?>
+		<div class="hero">
+			<h1><?php bloginfo( 'name' ); ?></h1>
+			<?php if ( get_bloginfo( 'description' ) ) : ?>
+				<p><?php bloginfo( 'description' ); ?></p>
+			<?php endif; ?>
+		</div>
+	<?php elseif ( is_archive() || is_search() ) : ?>
 		<h1><?php echo is_search() ? esc_html( 'Recherche : ' . get_search_query() ) : wp_kses_post( get_the_archive_title() ); ?></h1>
 	<?php elseif ( is_404() ) : ?>
 		<h1>Page introuvable</h1>
+		<p>Cette adresse ne mène nulle part. <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Retourner à l'accueil</a> ou lancer une recherche :</p>
+		<?php get_search_form(); ?>
 	<?php endif; ?>
 
 	<?php if ( have_posts() ) : ?>
 		<?php while ( have_posts() ) : the_post(); ?>
-			<article <?php post_class(); ?>>
+			<article <?php post_class( is_singular() ? 'entry' : 'row' ); ?>>
 				<?php if ( is_singular() ) : ?>
 					<h1 class="entry-title"><?php the_title(); ?></h1>
 				<?php else : ?>
@@ -47,6 +58,7 @@
 					wp_link_pages();
 				} else {
 					the_excerpt();
+					the_post_thumbnail( 'medium' );
 				}
 				?>
 			</article>
@@ -60,7 +72,8 @@
 
 		<?php the_posts_pagination(); ?>
 	<?php elseif ( ! is_404() ) : ?>
-		<p>Aucun résultat.</p>
+		<p>Aucun résultat. Essayer avec d'autres mots :</p>
+		<?php get_search_form(); ?>
 	<?php endif; ?>
 </main>
 

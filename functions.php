@@ -10,5 +10,6 @@ add_action( 'after_setup_theme', function () {
 } );
 
 add_action( 'wp_enqueue_scripts', function () {
-	wp_enqueue_style( 'minimal', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
+	wp_enqueue_style( 'minimal-fonts', 'https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Hanken+Grotesk:ital,wght@0,400..700;1,400..700&display=swap', array(), null );
+	wp_enqueue_style( 'minimal', get_stylesheet_uri(), array( 'minimal-fonts' ), wp_get_theme()->get( 'Version' ) );
 } );
