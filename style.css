@@ -1,0 +1,67 @@
+/*
+Theme Name: Minimal
+Description: Un thème WordPress simple et minimaliste.
+Version: 1.0
+Requires at least: 6.0
+Requires PHP: 7.4
+License: GPL-2.0-or-later
+Text Domain: minimal
+*/
+
+:root {
+	color-scheme: light dark;
+	--text: light-dark(#1a1a1a, #e8e8e8);
+	--muted: light-dark(#6b6b6b, #9a9a9a);
+	--bg: light-dark(#fff, #161616);
+	--border: light-dark(#e5e5e5, #2e2e2e);
+}
+
+* { box-sizing: border-box; }
+
+body {
+	max-width: 42rem;
+	margin: 0 auto;
+	padding: 2rem 1rem;
+	background: var(--bg);
+	color: var(--text);
+	font: 1.0625rem/1.7 system-ui, sans-serif;
+}
+
+a { color: inherit; text-underline-offset: 0.2em; }
+img, video, iframe { max-width: 100%; height: auto; }
+h1, h2, h3 { line-height: 1.25; }
+pre { overflow-x: auto; }
+
+.site-header {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 4rem;
+}
+.site-title { font-weight: 600; text-decoration: none; }
+.site-header ul { display: flex; flex-wrap: wrap; gap: 1rem; margin: 0; padding: 0; list-style: none; }
+
+article { margin-bottom: 3rem; }
+.entry-title { margin: 0 0 0.25rem; }
+.entry-title a { text-decoration: none; }
+.entry-date, .site-footer { color: var(--muted); font-size: 0.875rem; }
+.nav-links { display: flex; justify-content: space-between; gap: 1rem; }
+
+.site-footer {
+	margin-top: 4rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--border);
+}
+
+.alignleft { float: left; margin-right: 1rem; }
+.alignright { float: right; margin-left: 1rem; }
+.aligncenter { display: block; margin-inline: auto; }
+.wp-caption-text, figcaption { color: var(--muted); font-size: 0.875rem; }
+.screen-reader-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+}
